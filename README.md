@@ -50,7 +50,7 @@ Clone or download this repository into your themes folder.
 Open your root WordPress installation folder into a terminal and type:
 <br/><br/>
 ```
-cd wp-content/themes && git clone https://github.com/sandroschutt/wp-theme-setup.git
+cd wp-content/themes && git init && git clone https://github.com/sandroschutt/wp-child-theme-boilerplate.git
 ```
 <br/><br/>
 If you downloaded the project to your machine through the direct download button, just move it all into the themes folder located in /wp-content.
