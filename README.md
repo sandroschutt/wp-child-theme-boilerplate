@@ -5,7 +5,7 @@
 <div align="center">
   
 ![WordPress](https://img.shields.io/badge/WordPress-21759B?style=for-the-badge&logo=wordpress&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white) <br>
 ![OOP](https://img.shields.io/badge/OOP-Object--Oriented%20Programming-blue)
 
 
