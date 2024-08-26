@@ -74,23 +74,21 @@ Add a test function to PublicSettings.php:
 ```
 // includes/PublicSettings.php
 
-function is_front_page()
+function testBoilerplate()
 {
-  if(is_front_page()) {
-    echo "Indeed, it is the front page.";
-  }
+  echo "<p>WordPress Child Theme Boilerplate is up and running!</p>";
 }
 ```
 <br/><br/>
 Call it inside ThemeSettings.php
 <br/><br/>
 ```
-    public function action_hooks() {
+    public function actionHooks() {
         /**
         /* Function hook calls...
         */
 
-        $this->public->is_front_page();
+        $this->public->testBoilerplate();
     }
 ```
 <br/><br/>
