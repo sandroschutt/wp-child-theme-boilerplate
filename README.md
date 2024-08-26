@@ -25,6 +25,7 @@ The main ideia is:
 - PublicSettings: handles all frontend custom code;
 - AdminSettungs: handles all admin panel custom code;
 - ThemeSettings.php: handles action and filter hooks, custom functions calls and methods.
+- /assets: dedicated folder for all your javascript, styles and media files.
 
 You can also leverage namespaces with the built-in autoloader!
 
