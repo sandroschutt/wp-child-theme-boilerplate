@@ -24,8 +24,8 @@ class PublicSettings implements SettingsInterface
 
         if (count($scripts['files']) <= 2) return;
         foreach ($scripts['files'] as $script) :
-            if (strlen($script) >= 3 && str_contains($script, ".js")) :
-                $scriptName = preg_replace("/.js/", "", $script);
+            if (strlen($script) >= 3 && str_contains($script, ".min.js")) :
+                $scriptName = preg_replace("/.min.js/", "", $script);
                 wp_enqueue_script($scriptName, $this->scriptsPath . $script);
             endif;
         endforeach;
@@ -39,8 +39,8 @@ class PublicSettings implements SettingsInterface
 
         if (count($scripts['files']) <= 2) return;
         foreach ($scripts['files'] as $script) :
-            if (strlen($script) >= 3 && str_contains($script, ".js")) :
-                $scriptName = preg_replace("/.js/", "", $script);
+            if (strlen($script) >= 3 && str_contains($script, ".min.js")) :
+                $scriptName = preg_replace("/.min.js/", "", $script);
                 if (is_page($scriptName)) :
                     wp_enqueue_script("page-" . $scriptName, $this->scriptsPath . "pages/$script");
                 endif;
@@ -80,8 +80,6 @@ class PublicSettings implements SettingsInterface
         if (count($styles['files']) <= 2) return;
         foreach ($styles['files'] as $style) :
             if (strlen($style) >= 3 && str_contains($style, ".min.css")) :
-                // echo $style;
-                // die();
                 $styleName = preg_replace("/.min.css/", "", $style);
                 if (is_page($styleName)) :
                     wp_enqueue_style("page-" . $styleName, $this->stylesPath . "pages/$style");
