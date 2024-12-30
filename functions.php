@@ -6,7 +6,7 @@
  * Admin logic, javascript and styles are handled by AdminSettings class.
  */
 
-require dirname(__FILE__) . "/includes/autoload.php";
+require dirname(__FILE__) . "/inc/autoload.php";
 
 $themeSettings = new WPChildThemeBoilerplate\ThemeSettings();
 

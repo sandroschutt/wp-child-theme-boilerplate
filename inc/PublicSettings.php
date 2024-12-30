@@ -13,6 +13,7 @@ class PublicSettings implements SettingsInterface
     {
         $this->stylesPath = get_theme_file_uri() . "/assets/sass/build/";
         $this->scriptsPath = get_theme_file_uri() . "/assets/javascript/";
+        $this->themeShortcodes();
     }
 
     public function enqueueScripts()
@@ -53,5 +54,21 @@ class PublicSettings implements SettingsInterface
         }
 
         return $tag;
+    }
+
+    function themeShortcodes()
+    {
+        $dir = dirname(__DIR__) . "/lib/shortcodes/";
+        $shortcodes = scandir($dir, SCANDIR_SORT_DESCENDING);
+
+        if(count($shortcodes) <= 2) return;
+
+        foreach ($shortcodes as $shortcode) :
+            if (strlen($shortcode) >= 3) :
+                include $dir . $shortcode;
+                $shortcodeName = preg_replace("/.php/", "", $shortcode);
+                add_shortcode($shortcodeName, $shortcodeName);
+            endif;
+        endforeach;
     }
 }
