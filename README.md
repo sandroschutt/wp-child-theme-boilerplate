@@ -3,11 +3,13 @@
 </div>
 
 <div align="center">
+
+![OOP](https://img.shields.io/badge/OOP-Object--Oriented%20Programming-blue) <br/>
 ![WordPress](https://img.shields.io/badge/WordPress-21759B?style=for-the-badge&logo=wordpress&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white) <br>
-![OOP](https://img.shields.io/badge/OOP-Object--Oriented%20Programming-blue)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![Gulp](https://img.shields.io/badge/Gulp-CF4647?style=for-the-badge&logo=gulp&logoColor=white)
+
 </div>
 
 ## Release notes:
@@ -18,6 +20,13 @@
 - URL: https://github.com/sandroschutt/wp-child-theme-boilerplate/
 - Version: 1.1.0
 
+### New features:
+- Dynamic styles and scripts enqueueing (global);
+- Dynamic styles and scripts enqueueing (pages);
+- Dynamic shortcode creation;
+- JS and CSS minification;
+
+<br/><br/>
 <p align="center"><i>Setup a WordPress Child Theme in no time!</i></p>
 
 <p align="center" style="text-align: center"><i>With WPCTB you have a solid base that let you focus on extending your website style and features rahter than structure.</i></p>
@@ -141,7 +150,7 @@ Call it inside ThemeSettings.php
 <br/><br/>
 
 ```
-    class ThemeSettings
+class ThemeSettings
 {
     private $public;
     private $admin;
@@ -177,7 +186,7 @@ This boilerplate packs a custom autoloader that will handle all of your php file
 ### Adding shortcodes dynamically
 Similar to adding scripts and styles, you can add shortcodes to your theme by just creating a shortcode file inside /lib/shortcodes. PublicSettings class will use the themeShortcodes method to scan the directory and add all shortcodes found in the folder.
 
-The only rule here is using **-** to separete words in your filename. Camelcase and lowercase will also work, but underscores **( _ )** won't. Still, you have to use underscores or camelcase when declaring callbacks.
+The only rule here is using **( - )** to separete words in your filename. Camelcase and lowercase will also work, but underscores **( _ )** won't. Still, you have to use underscores or camelcase when declaring callbacks.
 
 ### Example:
 
@@ -194,7 +203,6 @@ function test_shortcode() {
 
 Now you just have to use that shortcode in a page or template:
 
-##### Admin panel
 In a page or post, type:
 
 ```
