@@ -24,8 +24,8 @@ class PublicSettings implements SettingsInterface
 
         if (count($scripts['files']) <= 2) return;
         foreach ($scripts['files'] as $script) :
-            if (strlen($script) >= 3 && str_contains($script, ".js")) :
-                $scriptName = preg_replace("/.js/", "", $script);
+            if (strlen($script) >= 3 && str_contains($script, ".min.js")) :
+                $scriptName = preg_replace("/.min.js/", "", $script);
                 wp_enqueue_script($scriptName, $this->scriptsPath . $script);
             endif;
         endforeach;
@@ -39,8 +39,8 @@ class PublicSettings implements SettingsInterface
 
         if (count($scripts['files']) <= 2) return;
         foreach ($scripts['files'] as $script) :
-            if (strlen($script) >= 3 && str_contains($script, ".js")) :
-                $scriptName = preg_replace("/.js/", "", $script);
+            if (strlen($script) >= 3 && str_contains($script, ".min.js")) :
+                $scriptName = preg_replace("/.min.js/", "", $script);
                 if (is_page($scriptName)) :
                     wp_enqueue_script("page-" . $scriptName, $this->scriptsPath . "pages/$script");
                 endif;
@@ -54,13 +54,8 @@ class PublicSettings implements SettingsInterface
         wp_enqueue_style('parent-style', get_parent_theme_file_uri('style.css'));
 
         if (is_front_page()) {
-            wp_register_style('home', $this->stylesPath . 'home.css');
+            wp_register_style('home', $this->stylesPath . 'home.min.css');
             wp_enqueue_style('home');
-        }
-
-        if (is_singular('post')) {
-            wp_register_style('single-post', $this->stylesPath . 'single-post.css');
-            wp_enqueue_style('single-post');
         }
 
         $path = "/build/css/";
@@ -69,8 +64,8 @@ class PublicSettings implements SettingsInterface
 
         if (count($styles['files']) <= 2) return;
         foreach ($styles['files'] as $style) :
-            if (strlen($style) >= 3 && str_contains($style, ".css")) :
-                $styleName = preg_replace("/.css/", "", $style);
+            if (strlen($style) >= 3 && str_contains($style, ".min.css")) :
+                $styleName = preg_replace("/.min.css/", "", $style);
                 wp_enqueue_style($styleName, $this->stylesPath . $style);
             endif;
         endforeach;
@@ -84,8 +79,8 @@ class PublicSettings implements SettingsInterface
 
         if (count($styles['files']) <= 2) return;
         foreach ($styles['files'] as $style) :
-            if (strlen($style) >= 3 && str_contains($style, ".css")) :
-                $styleName = preg_replace("/.css/", "", $style);
+            if (strlen($style) >= 3 && str_contains($style, ".min.css")) :
+                $styleName = preg_replace("/.min.css/", "", $style);
                 if (is_page($styleName)) :
                     wp_enqueue_style("page-" . $styleName, $this->stylesPath . "pages/$style");
                 endif;
@@ -121,7 +116,7 @@ class PublicSettings implements SettingsInterface
         if (is_admin() || $shortcodes === null) return;
 
         foreach ($shortcodes['files'] as $shortcode) :
-            if (strlen($shortcode) >= 3 && str_contains( $shortcode, ".php" )) :
+            if (strlen($shortcode) >= 3 && str_contains($shortcode, ".php")) :
                 include $shortcodes['dir'] . $shortcode;
                 $shortcodeName = preg_replace("/.php/", "", $shortcode);
                 $shortcodeCallback = preg_replace("/-/", "_", $shortcodeName);
