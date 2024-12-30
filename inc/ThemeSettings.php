@@ -24,7 +24,9 @@ class ThemeSettings
         add_action('admin_enqueue_scripts', array($this->admin, 'enqueueScripts'));
         add_action('admin_enqueue_scripts', array($this->admin, 'enqueueStyles'));
         add_action('wp_enqueue_scripts', array($this->public, 'enqueueScripts'));
+        add_action('wp_enqueue_scripts', array($this->public, 'enqueuePageScripts'));
         add_action('wp_enqueue_scripts', array($this->public, 'enqueueStyles'));
+        add_action('wp_enqueue_scripts', array($this->public, 'enqueuePageStyles'));
     }
 
     public function filterHooks()
