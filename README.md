@@ -62,9 +62,9 @@ After that, just activate the theme in the wp-admin Appearence->Themes page.
 > This child theme defaults to Twenty Twenty Four as the parent theme. Don't forget to change that info in the style.css file in the root folder.
 
 ## Usage
-Load your custom frontend scripts, styles and PHP in the /includes/PublicSettings.php file.
+Load your custom frontend scripts, styles and PHP in the /inc/PublicSettings.php file.
 
-Load your custom backend (admin) scripts, styles and PHP in the /includes/AdminSettings.php file.
+Load your custom backend (admin) scripts, styles and PHP in the /inc/AdminSettings.php file.
 
 The boilerplate relies on OOP, so every function you add to any of the mentioned files should be called inside the /include/ThemeSettings.php file.
 
