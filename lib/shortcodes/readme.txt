@@ -1,0 +1,1 @@
+For more information on how to use this file to register your shortcodes, visit:
