@@ -18,31 +18,33 @@ class PublicSettings implements SettingsInterface
 
     public function enqueueScripts()
     {
-        $path = "/build/js/";
-        $scripts = $this->readThemeDirectories($path, false);
-        if (is_admin() || $scripts === null) return;
+        $scripts = $this->getFilesArray("/build/js/");
+        $fileExt = ".min.js";
+
+        if (is_admin() || $scripts === false) return;
 
         if (count($scripts['files']) <= 2) return;
         foreach ($scripts['files'] as $script) :
-            if (strlen($script) >= 3 && str_contains($script, ".min.js")) :
-                $scriptName = preg_replace("/.min.js/", "", $script);
-                wp_enqueue_script($scriptName, $this->scriptsPath . $script);
+            if (strlen($script) >= 3 && str_contains($script, $fileExt)) :
+                $handle = preg_replace("/$fileExt/", "", $script);
+                wp_enqueue_script($handle, $this->scriptsPath . $script);
             endif;
         endforeach;
     }
 
     public function enqueuePageScripts()
     {
-        $path = "/build/js/pages/";
-        $scripts = $this->readThemeDirectories($path, false);
-        if (is_admin() || $scripts === null) return;
+        $scripts = $this->getFilesArray("/build/js/pages/");
+        $fileExt = ".min.js";
+
+        if (is_admin() || $scripts === false) return;
 
         if (count($scripts['files']) <= 2) return;
         foreach ($scripts['files'] as $script) :
-            if (strlen($script) >= 3 && str_contains($script, ".min.js")) :
-                $scriptName = preg_replace("/.min.js/", "", $script);
-                if (is_page($scriptName)) :
-                    wp_enqueue_script("page-" . $scriptName, $this->scriptsPath . "pages/$script");
+            if (strlen($script) >= 3 && str_contains($script, $fileExt)) :
+                $slug = preg_replace("/$fileExt/", "", $script);
+                if (is_page($slug)) :
+                    wp_enqueue_script("page-" . $slug, $this->scriptsPath . "pages/$script");
                 endif;
             endif;
         endforeach;
@@ -58,31 +60,33 @@ class PublicSettings implements SettingsInterface
             wp_enqueue_style('home');
         }
 
-        $path = "/build/css/";
-        $styles = $this->readThemeDirectories($path, false);
-        if (is_admin() || $styles === null) return;
+        $styles = $this->getFilesArray("/build/css/");
+        $fileExt = ".min.css";
+
+        if (is_admin() || $styles === false) return;
 
         if (count($styles['files']) <= 2) return;
         foreach ($styles['files'] as $style) :
-            if (strlen($style) >= 3 && str_contains($style, ".min.css")) :
-                $styleName = preg_replace("/.min.css/", "", $style);
-                wp_enqueue_style($styleName, $this->stylesPath . $style);
+            if (strlen($style) >= 3 && str_contains($style, "$fileExt")) :
+                $handle = preg_replace("/$fileExt/", "", $style);
+                wp_enqueue_style($handle, $this->stylesPath . $style);
             endif;
         endforeach;
     }
 
     public function enqueuePageStyles()
     {
-        $path = "/build/css/pages/";
-        $styles = $this->readThemeDirectories($path, false);
-        if (is_admin() || $styles === null) return;
+        $styles = $this->getFilesArray("/build/css/pages/");
+        $fileExt = ".min.css";
+
+        if (is_admin() || $styles === false) return;
 
         if (count($styles['files']) <= 2) return;
         foreach ($styles['files'] as $style) :
-            if (strlen($style) >= 3 && str_contains($style, ".min.css")) :
-                $styleName = preg_replace("/.min.css/", "", $style);
-                if (is_page($styleName)) :
-                    wp_enqueue_style("page-" . $styleName, $this->stylesPath . "pages/$style");
+            if (strlen($style) >= 3 && str_contains($style, $fileExt)) :
+                $slug = preg_replace("/$fileExt/", "", $style);
+                if (is_page($slug)) :
+                    wp_enqueue_style("page-" . $slug, $this->stylesPath . "pages/$style");
                 endif;
             endif;
         endforeach;
@@ -110,28 +114,27 @@ class PublicSettings implements SettingsInterface
 
     function themeShortcodes()
     {
-        $path = "/lib/shortcodes/";
-        $shortcodes = $this->readThemeDirectories($path, true);
+        $shortcodes = $this->getFilesArray("/lib/shortcodes/");
+        $fileExt = ".php";
 
-        if (is_admin() || $shortcodes === null) return;
+        if (is_admin() || $shortcodes === false) return;
 
         foreach ($shortcodes['files'] as $shortcode) :
-            if (strlen($shortcode) >= 3 && str_contains($shortcode, ".php")) :
+            if (strlen($shortcode) >= 3 && str_contains($shortcode, $fileExt)) :
                 include $shortcodes['dir'] . $shortcode;
-                $shortcodeName = preg_replace("/.php/", "", $shortcode);
-                $shortcodeCallback = preg_replace("/-/", "_", $shortcodeName);
-                add_shortcode($shortcodeName, $shortcodeCallback);
+                $tag = preg_replace("/$fileExt/", "", $shortcode);
+                $callback = preg_replace("/-/", "_", $tag);
+                add_shortcode($tag, $callback);
             endif;
         endforeach;
     }
 
-    function readThemeDirectories(String $path, Bool $php)
+    function getFilesArray(String $path) : Array|Bool
     {
         $dir = dirname(__DIR__) . $path;
-        $files = scandir($dir, SCANDIR_SORT_DESCENDING);
-        if (count($files) <= 2) return;
-        $files = ["files" => $files];
-        if ($php) $files['dir'] = $dir;
-        return $files;
+        $readFiles = scandir($dir, SCANDIR_SORT_DESCENDING);
+        if (count($readFiles) <= 2) return false;
+        $readFiles = ["files" => $readFiles, "dir" => $dir];
+        return $readFiles;
     }
 }
