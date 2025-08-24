@@ -6,8 +6,10 @@
  * Admin logic, javascript and styles are handled by AdminSettings class.
  */
 
-require dirname(__FILE__) . "/inc/autoload.php";
+require dirname(__FILE__) . "/autoload.php";
 
-$themeSettings = new WPChildThemeBoilerplate\ThemeSettings();
+use WPChildThemeBoilerplate\ThemeSettings;
+
+$themeSettings = new ThemeSettings();
 
 add_filter('wp_lazy_loading_enabled', '__return_false');
