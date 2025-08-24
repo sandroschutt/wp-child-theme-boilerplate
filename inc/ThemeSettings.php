@@ -14,7 +14,7 @@ class ThemeSettings
         $this->activationHook();
         $this->actionHooks();
         $this->filterHooks();
-        $this->loadShortcodes();
+        $this->includeShortcodes();
     }
 
     public function actionHooks()
@@ -32,8 +32,8 @@ class ThemeSettings
 
     public function activationHook() {}
 
-    public function loadShortcodes() {
+    public function includeShortcodes() {
         $shortcodes = new \WPChildThemeBoilerplate\Assets\Shortcodes;
-        $shortcodes->autoload();
+        $shortcodes->autoInclude();
     }
 }
