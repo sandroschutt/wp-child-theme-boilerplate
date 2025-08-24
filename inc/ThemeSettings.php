@@ -56,10 +56,6 @@ class ThemeSettings
      */
     public function filterHooks()
     {
-        /*
-        * TDOD: Make this function read a modules folder in build instead of loading from array.
-        * May need a complementary method in Scripts for autoincluding modules.
-        */
         add_filter("script_loader_tag", array($this->scripts, 'addPublicModulesFromArray'), 10, 3);
     }
 
