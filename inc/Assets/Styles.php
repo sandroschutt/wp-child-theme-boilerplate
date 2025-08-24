@@ -16,9 +16,12 @@ class Styles
      */
     private $stylesPath;
 
+    private $fileExt;
+
     public function __construct()
     {
         $this->stylesPath = get_theme_file_uri() . "/build/css/";
+        $this->fileExt = ".min.css";
     }
 
     /**
@@ -39,17 +42,14 @@ class Styles
             wp_enqueue_style('home');
         }
 
-        $styles = \WPChild\Helpers::getFilesArray("/build/css/");
-        $fileExt = ".min.css";
+        $fileExt = $this->fileExt;
+        $styles = \WPChild\Helpers::getFilesArray("/build/css/", $fileExt);
 
         if (is_admin() || $styles === false) return;
 
-        if (count($styles['files']) <= 2) return;
         foreach ($styles['files'] as $style) :
-            if (strlen($style) >= 3 && str_contains($style, "$fileExt")) :
-                $handle = preg_replace("/$fileExt/", "", $style);
-                wp_enqueue_style($handle, $this->stylesPath . $style);
-            endif;
+            $handle = preg_replace("/$fileExt/", "", $style);
+            wp_enqueue_style($handle, $this->stylesPath . $style);
         endforeach;
     }
 
@@ -62,19 +62,16 @@ class Styles
      */
     public function enqueuePageStyles()
     {
-        $styles = \WPChild\Helpers::getFilesArray("/build/css/pages/");
-        $fileExt = ".min.css";
+        $fileExt = $this->fileExt;
+        $styles = \WPChild\Helpers::getFilesArray("/build/css/pages/", $fileExt);
 
         if (is_admin() || $styles === false) return;
 
-        if (count($styles['files']) <= 2) return;
         foreach ($styles['files'] as $style) :
-            if (strlen($style) >= 3 && str_contains($style, $fileExt)) :
-                $slug = preg_replace("/$fileExt/", "", $style);
-                $page = preg_replace("/page-/", "", $slug);
-                if (is_page($page)) :
-                    wp_enqueue_style("page-" . $page, $this->stylesPath . "pages/$style");
-                endif;
+            $slug = preg_replace("/$fileExt/", "", $style);
+            $page = preg_replace("/page-/", "", $slug);
+            if (is_page($page)) :
+                wp_enqueue_style("page-" . $page, $this->stylesPath . "pages/$style");
             endif;
         endforeach;
     }
