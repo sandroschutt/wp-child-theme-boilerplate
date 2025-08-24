@@ -11,7 +11,7 @@ class Shortcodes
         $this->helpers = new \WPChildThemeBoilerplate\Helpers;
     }
     
-    public function autoload()
+    public function autoInclude()
     {
         $shortcodes = $this->helpers->getFilesArray("/lib/shortcodes/");
         $fileExt = ".php";
@@ -21,9 +21,6 @@ class Shortcodes
         foreach ($shortcodes['files'] as $shortcode) :
             if (strlen($shortcode) >= 3 && str_contains($shortcode, $fileExt)) :
                 include $shortcodes['dir'] . $shortcode;
-                $tag = preg_replace("/$fileExt/", "", $shortcode);
-                $callback = preg_replace("/-/", "_", $tag);
-                add_shortcode($tag, $callback);
             endif;
         endforeach;
     }
