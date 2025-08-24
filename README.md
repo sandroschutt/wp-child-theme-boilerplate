@@ -16,9 +16,19 @@
 
 - Title: WordPress Child Theme Boilerplate
 - Author: Sandro Schutt
-- Author URI: https://sandroschutt.com.br/about
+- Author URI: https://github.com/sandroschutt/
 - URL: https://github.com/sandroschutt/wp-child-theme-boilerplate/
-- Version: 1.1.0
+- Version: 1.9
+
+### Changelog:
+ - Moved autoload.php to root folder in order to make namespaces to work inside the theme scope;
+ - Removed AdminSettings, PublicSettings and SettingsInterface for cleaner code;
+ - Changed the logic in the shortcodes autoinclusion for more precise control over this functionality;
+ - Introduced new default classes in a Assets bundle (Styles, Scripts, Shortcodes);
+- Introduced a Helper class to handle folder reading and generic routines;
+- Added annotations to all functions for better code reading;
+- Simplified functions.php;
+- Added regular dependencies to the theme in favor of dev dependencies;
 
 ### New features:
 - Dynamic styles and scripts enqueueing (global);
@@ -38,13 +48,9 @@ WPCTB is aimed to developers who are tired of setting up child themes over and o
 
 This boileplate lend some of WPPB ideas and bring them to child themes, making them easy to install and configure. It does so by organizing action and filter hooks, leaving function declaration and logic separate from the hook calls.
 
-The main ideia is:
+With the built in autoloader, you can leverage namespaces and OOP without having to install Composer, making your code cleaner and easy to manage.
 
-- PublicSettings: handles all frontend custom code;
-- AdminSettings: handles all admin panel custom code;
-- ThemeSettings: handles action and filter hooks;
-
-You can also leverage namespaces with the built-in autoloader!
+Another feature to make WP work more straightforward is the auto inclusion of styles and scripts. As longs as your scripts are loaded in the **/build/** folder, there is nothing else you have to do other than write your own JS and CSS. <a href="#autoloading-scripts">Check this section for more details on how to usee this feature</a>
 
 Setup your code and get to work!
 <br/><br/>
@@ -75,11 +81,11 @@ If you downloaded the project to your machine through the direct download button
 After that, just activate the theme in the wp-admin->Appearence->Themes.
 
 > [!NOTE]
-> This child theme defaults to Twenty Twenty Four as the parent theme. Don't forget to change that info in the <a href="https://github.com/sandroschutt/wp-child-theme-boilerplate/blob/main/style.css">style.css</a>.
+> This child theme defaults to Twenty Twenty Five as the parent theme. Don't forget to change that info in style.css.
 
 ## Usage
 
-### Enqueing Scripts
+### <span id="autoloading-scripts">Enqueing Scripts</span>
 
 Working with WPCTB became easier! Now you dont have to manually enqueue scripts, styles and even shortcodes. All you need to do is create your files in the /src folder and run Gulp to compile and minify them all at once. Here is how you do that:
 
@@ -121,27 +127,27 @@ Gulp will compile and minify all scss and js files inside the /src folder. Now, 
 
 If you don't want to use the gulp minified files and use a plugin for running that task instead, you'll have to change the extensions from ".min.css" to ".css" in <a href="https://github.com/sandroschutt/wp-child-theme-boilerplate/blob/main/inc/PublicSettings.php">/inc/PublicSettings.php</a>.
 
-The enqueueScripts and enqueueStyles functions are mapping the /build directory, so make sure to create your css files inside that directory or change the mapped directory in the $path variable.
+The Scripts and Styles classes maps the /build directory, so make sure to create your css files inside that directory or change the mapped directory in the $path variable for each class.
 
 ### Adding custom PHP
 
-You can write custom code and use namespaces anywhere inside the /inc folder. Keep in mind that all public facing code should be handled by the PublicSettings class, while any admin panel facing code should pass through AdminSettings.
+You can write custom code and use namespaces anywhere inside the boilerplate.
 
-For your code to take effect, you must create or call your code inside these two classes and call them in the constructor (if no hook is necessary) or in the ThemeSettings class, passing a class method as a callback for the hook.
+If you want to hook directly into the ThemeSettings class, you will have to use classes. Than you can call an instance of that class or its static methods inside ThemeSettings's constructor. Another route is to just create an instance of that class in functions.php.
 
-The boilerplate relies on OOP, so every function you add to any of the mentioned files should be called inside the /inc/ThemeSettings.php file.
+For the time being, procedural code still relies in default PHP inclusion. You can use functions.php for that.
 
 #### Example:
 
-Add a test function to PublicSettings.php:
+Add a test function to Shortocodes.php:
 <br/><br/>
 
 ```
-// includes/PublicSettings.php
+// Assets/Shortcodes.php
 
-function testBoilerplate()
+public static function test()
 {
-  echo "<p>WordPress Child Theme Boilerplate is up and running!</p>";
+  // Test code...
 }
 ```
 
@@ -152,45 +158,59 @@ Call it inside ThemeSettings.php
 ```
 class ThemeSettings
 {
-    private $public;
-    private $admin;
-
     public function __construct()
     {
-        // Default attributes...
-        $this->public->testBoilerplate();
+        // Default code...
+        \WPChild\Assets\Shortcodes::test(); // Will run the method
     }
   
   // Default methods...
 }
 ```
 
-#### Or:
+You can also use it inside a action or filter hook using the array param provided by WordPress:
 
 ```
 public function actionHooks()
 {
-        // Function hook calls...
-        add_action("wp_init", array($this->public, "testBoilerplate"));
+    // Function hook calls...
+    add_action("wp_head", array(\WPChild\Assets\Shortcodes, "test"));
 }
 ```
 
+That will work given you are calling a static method that doesnt require the class instance directly. For non static methods, you should create an instance of the class and call it in the constructor:
+
+```
+class ThemeSettings
+{
+    private $shortcodes;
+    
+    public function __construct()
+    {
+        // Default code...
+        $this->shortcodes = new \WPChild\Assets\Shortcodes;
+        $this->shortcodes->nonStaticMethod();
+    }
+    
+    public function actionHooks()
+   {
+      // Function hook calls...
+      add_action("wp_head", array($this->shortcodes, "nonStaticMethod"));
+   }
+  
+  // Default methods...
+}
+```
 <br/><br/>
 
-If you want to get rid of "requires" and "includes" inside your code, just use the **\WPChildThemeBoilerplate namespace** or change it to whatever name you like.
+If you want to get rid of "requires" and "includes" inside your code, just use the **\WPChild namespace** or change it to whatever name you like.
 
 This boilerplate packs a custom autoloader that will handle all of your php files importing inside the **/inc** folder
 
 <br/><br/>
 
 ### Adding shortcodes dynamically
-Similar to adding scripts and styles, you can add shortcodes to your theme by just creating a shortcode file inside /lib/shortcodes. PublicSettings class will use the themeShortcodes method to scan the directory and add all shortcodes found in the folder.
-
-The only rule here is using **( - )** to separete words in your filename. Camelcase and lowercase will also work, but underscores **( _ )** won't. Still, you have to use underscores or camelcase when declaring callbacks.
-
-### Example:
-
-Create a file called test-shortcode.php inside **/lib/shortcodes**. Paste the following code to your file:
+Similar to adding scripts and styles, you can add shortcodes to your theme by just creating a shortcode file inside /lib/shortcodes and that is all. Shortcodes class will handle the rest for you. Just create your file and use the add_shortcode function to register it.
 
 ```
 <?php
@@ -199,6 +219,8 @@ function test_shortcode() {
   <p>This is a test shortcode</p>
   <?php return ob_get_clean();
 }
+
+add_shortcode('test', 'test_shortcode');
 ```
 
 Now you just have to use that shortcode in a page or template:
@@ -211,15 +233,10 @@ In a page or post, type:
 
 If you are using Gutenberg, use the Shortcode block and paste the same code. You should see the shortcode message instead of the tag. If not, review the steps and turn on debugging on your wp-config.php file for troubleshooting.
 
-<br/><br/>
+
+<br>
 
 ### More information
 
 - [Project release post](https://sandroschutt.com.br/projects/wordpress-child-theme-setup)
 - [Author LinkedIn](https://linkedin.com/in/sandro-schutt)
-
-<br/><br/>
-
-### Tutorials
-
-- Soon

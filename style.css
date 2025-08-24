@@ -1,11 +1,11 @@
 /*
 Theme Name: WP Child Theme Boilerplate
 Theme URI: https://github.com/sandroschutt/wp-child-theme-boilerplate
-Description: OOP child theme model for mid and advanced level developers
+Description: WPCTB is aimed to developers who are tired of setting up child themes over and over. It is based on the WordPress Plugin Boilerplate (WPPB), which help developers adopt a standard while building plugins. This boileplate lend some of WPPB ideas and bring them to child themes, making them easy to install and configure. It does so by organizing action and filter hooks, leaving function declaration and logic separate from the hook calls. With the built in autoloader, you can leverage namespaces and OOP without having to install Composer, making your code cleaner and easy to manage. Check this link for tutorials on <a href="https://github.com/sandroschutt/wp-child-theme-boilerplate/blob/main/README.md" target="_blank" rel="noopener noreferrer">how to use this boilerplate</a> in your favor.
 Author: Sandro Schutt
 Author URI: https://profiles.wordpress.org/sandroschutt/
 Template: twentytwentyfive
-Version: 2.0
+Version: 1.5
 */
 
 /* Add your custom styles here */
