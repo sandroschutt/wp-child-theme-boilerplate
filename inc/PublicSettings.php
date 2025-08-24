@@ -85,8 +85,9 @@ class PublicSettings implements SettingsInterface
         foreach ($styles['files'] as $style) :
             if (strlen($style) >= 3 && str_contains($style, $fileExt)) :
                 $slug = preg_replace("/$fileExt/", "", $style);
-                if (is_page($slug)) :
-                    wp_enqueue_style("page-" . $slug, $this->stylesPath . "pages/$style");
+                $page = preg_replace("/page-/", "", $slug);
+                if (is_page($page)) :
+                    wp_enqueue_style("page-" . $page, $this->stylesPath . "pages/$style");
                 endif;
             endif;
         endforeach;
@@ -129,7 +130,7 @@ class PublicSettings implements SettingsInterface
         endforeach;
     }
 
-    function getFilesArray(String $path) : Array|Bool
+    function getFilesArray(String $path): array|Bool
     {
         $dir = dirname(__DIR__) . $path;
         $readFiles = scandir($dir, SCANDIR_SORT_DESCENDING);
