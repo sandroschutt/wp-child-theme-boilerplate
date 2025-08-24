@@ -2,18 +2,28 @@
 
 namespace WPChild\Assets;
 
+/**
+ * Class Shortcodes
+ *
+ * Handles the automatic inclusion of PHP shortcode files
+ * from the theme's library directory.
+ *
+ * @package WPChild\Assets
+ */
 class Shortcodes
-{
-    private $helpers;
-
-    public function __construct()
+{    
+    /**
+     * Automatically include all shortcode PHP files.
+     *
+     * Scans the /lib/shortcodes/ directory for PHP files and includes them
+     * on the frontend (skips admin area). Only includes files with the
+     * .php extension and file names longer than 2 characters.
+     *
+     * @return void
+     */
+    public static function autoInclude()
     {
-        $this->helpers = new \WPChild\Helpers;
-    }
-    
-    public function autoInclude()
-    {
-        $shortcodes = $this->helpers->getFilesArray("/lib/shortcodes/");
+        $shortcodes = \WPChild\Helpers::getFilesArray("/lib/shortcodes/");
         $fileExt = ".php";
 
         if (is_admin() || $shortcodes === false) return;

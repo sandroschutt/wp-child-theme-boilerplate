@@ -2,17 +2,33 @@
 
 namespace WPChild\Assets;
 
+/**
+ * Class Styles
+ *
+ * Handles the registration and enqueueing of theme CSS styles.
+ *
+ * @package WPChild\Assets
+ */
 class Styles
 {
+    /**
+     * @var string Base URI path to the theme's CSS build directory.
+     */
     private $stylesPath;
-    private $helpers;
 
     public function __construct()
     {
         $this->stylesPath = get_theme_file_uri() . "/build/css/";
-        $this->helpers = new \WPChild\Helpers;
     }
 
+    /**
+     * Enqueue global and front-page specific CSS styles.
+     *
+     * Enqueues the parent theme style, front page style, 
+     * and additional styles found in the theme's build/css directory.
+     *
+     * @return void
+     */
     public function enqueueStyles()
     {
         if (is_admin()) return;
@@ -23,7 +39,7 @@ class Styles
             wp_enqueue_style('home');
         }
 
-        $styles = $this->helpers->getFilesArray("/build/css/");
+        $styles = \WPChild\Helpers::getFilesArray("/build/css/");
         $fileExt = ".min.css";
 
         if (is_admin() || $styles === false) return;
@@ -37,9 +53,16 @@ class Styles
         endforeach;
     }
 
+    /**
+     * Enqueue page-specific CSS styles.
+     *
+     * Loads styles from build/css/pages/ and enqueues them for matching pages.
+     *
+     * @return void
+     */
     public function enqueuePageStyles()
     {
-        $styles = $this->helpers->getFilesArray("/build/css/pages/");
+        $styles = \WPChild\Helpers::getFilesArray("/build/css/pages/");
         $fileExt = ".min.css";
 
         if (is_admin() || $styles === false) return;
