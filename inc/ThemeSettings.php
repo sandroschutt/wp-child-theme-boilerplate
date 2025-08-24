@@ -2,37 +2,38 @@
 
 namespace WPChildThemeBoilerplate;
 
-use WPChildThemeBoilerplate\AdminSettings;
-use WPChildThemeBoilerplate\PublicSettings;
-
 class ThemeSettings
 {
-    private $public;
-    private $admin;
+    private $styles;
+    private $scripts;
 
     public function __construct()
     {
-        $this->public = new PublicSettings();
-        $this->admin = new AdminSettings();
+        $this->styles = new \WPChildThemeBoilerplate\Assets\Styles;
+        $this->scripts = new \WPChildThemeBoilerplate\Assets\Scripts;
         $this->activationHook();
         $this->actionHooks();
         $this->filterHooks();
+        $this->loadShortcodes();
     }
 
     public function actionHooks()
     {
-        add_action('admin_enqueue_scripts', array($this->admin, 'enqueueScripts'));
-        add_action('admin_enqueue_scripts', array($this->admin, 'enqueueStyles'));
-        add_action('wp_enqueue_scripts', array($this->public, 'enqueueScripts'));
-        add_action('wp_enqueue_scripts', array($this->public, 'enqueuePageScripts'));
-        add_action('wp_enqueue_scripts', array($this->public, 'enqueueStyles'));
-        add_action('wp_enqueue_scripts', array($this->public, 'enqueuePageStyles'));
+        add_action('wp_enqueue_scripts', array($this->scripts, 'enqueueScripts'));
+        add_action('wp_enqueue_scripts', array($this->scripts, 'enqueuePageScripts'));
+        add_action('wp_enqueue_scripts', array($this->styles, 'enqueueStyles'));
+        add_action('wp_enqueue_scripts', array($this->styles, 'enqueuePageStyles'));
     }
 
     public function filterHooks()
     {
-        add_filter("script_loader_tag", array($this->public, 'addPublicModules'), 10, 3);
+        add_filter("script_loader_tag", array($this->scripts, 'addPublicModules'), 10, 3);
     }
 
     public function activationHook() {}
+
+    public function loadShortcodes() {
+        $shortcodes = new \WPChildThemeBoilerplate\Assets\Shortcodes;
+        $shortcodes->autoload();
+    }
 }
