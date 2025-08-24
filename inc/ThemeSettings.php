@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChildThemeBoilerplate;
+namespace WPChild;
 
 class ThemeSettings
 {
@@ -9,8 +9,8 @@ class ThemeSettings
 
     public function __construct()
     {
-        $this->styles = new \WPChildThemeBoilerplate\Assets\Styles;
-        $this->scripts = new \WPChildThemeBoilerplate\Assets\Scripts;
+        $this->styles = new \WPChild\Assets\Styles;
+        $this->scripts = new \WPChild\Assets\Scripts;
         $this->activationHook();
         $this->actionHooks();
         $this->filterHooks();
@@ -33,7 +33,7 @@ class ThemeSettings
     public function activationHook() {}
 
     public function includeShortcodes() {
-        $shortcodes = new \WPChildThemeBoilerplate\Assets\Shortcodes;
+        $shortcodes = new \WPChild\Assets\Shortcodes;
         $shortcodes->autoInclude();
     }
 }

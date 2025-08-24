@@ -8,7 +8,7 @@
 
 require dirname(__FILE__) . "/autoload.php";
 
-use WPChildThemeBoilerplate\ThemeSettings;
+use WPChild\ThemeSettings;
 
 $themeSettings = new ThemeSettings();
 

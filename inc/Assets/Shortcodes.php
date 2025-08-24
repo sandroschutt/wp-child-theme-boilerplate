@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChildThemeBoilerplate\Assets;
+namespace WPChild\Assets;
 
 class Shortcodes
 {
@@ -8,7 +8,7 @@ class Shortcodes
 
     public function __construct()
     {
-        $this->helpers = new \WPChildThemeBoilerplate\Helpers;
+        $this->helpers = new \WPChild\Helpers;
     }
     
     public function autoInclude()

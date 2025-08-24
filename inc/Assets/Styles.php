@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChildThemeBoilerplate\Assets;
+namespace WPChild\Assets;
 
 class Styles
 {
@@ -10,7 +10,7 @@ class Styles
     public function __construct()
     {
         $this->stylesPath = get_theme_file_uri() . "/build/css/";
-        $this->helpers = new \WPChildThemeBoilerplate\Helpers;
+        $this->helpers = new \WPChild\Helpers;
     }
 
     public function enqueueStyles()

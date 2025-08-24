@@ -1,6 +1,6 @@
 <?php
-function WPChildThemeBoilerplateAutoload($class) {
-    $prefix   = 'WPChildThemeBoilerplate\\';
+function WPChildAutoload($class) {
+    $prefix   = 'WPChild\\';
     $baseDirs = [
         __DIR__ . '/',
         __DIR__ . '/inc/',
@@ -26,5 +26,5 @@ function WPChildThemeBoilerplateAutoload($class) {
     }
 }
 
-spl_autoload_register('WPChildThemeBoilerplateAutoload');
+spl_autoload_register('WPChildAutoload');
 

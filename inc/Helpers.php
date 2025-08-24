@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChildThemeBoilerplate;
+namespace WPChild;
 
 class Helpers
 {

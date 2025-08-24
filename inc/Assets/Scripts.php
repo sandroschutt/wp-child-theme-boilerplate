@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChildThemeBoilerplate\Assets;
+namespace WPChild\Assets;
 
 class Scripts
 {
@@ -10,7 +10,7 @@ class Scripts
     public function __construct()
     {
         $this->scriptsPath = get_theme_file_uri() . "/build/js/";
-        $this->helpers = new \WPChildThemeBoilerplate\Helpers;
+        $this->helpers = new \WPChild\Helpers;
     }
 
     public function enqueueScripts()
