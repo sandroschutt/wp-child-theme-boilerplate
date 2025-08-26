@@ -18,13 +18,20 @@
 - Author: Sandro Schutt
 - Author URI: https://github.com/sandroschutt/
 - URL: https://github.com/sandroschutt/wp-child-theme-boilerplate/
-- Version: 1.9
+- Version: 1.6
 
 ### Changelog:
- - Moved autoload.php to root folder in order to make namespaces to work inside the theme scope;
- - Removed AdminSettings, PublicSettings and SettingsInterface for cleaner code;
- - Changed the logic in the shortcodes autoinclusion for more precise control over this functionality;
- - Introduced new default classes in a Assets bundle (Styles, Scripts, Shortcodes);
+#### v1.6
+- Refactors ThemeSettings for cleaner code;
+- Move action hooks from ThemeSettings to Styles and Scripts constructors;
+- Drop Shortcode class (was doing almost nothing);
+- Introduces Helpers' autoIncludeFiles method for easily handling of autoinclusions;
+
+#### v1.5
+- Moved autoload.php to root folder in order to make namespaces to work inside the theme scope;
+- Removed AdminSettings, PublicSettings and SettingsInterface for cleaner code;
+- Changed the logic in the shortcodes autoinclusion for more precise control over this functionality;
+- Introduced new default classes in a Assets bundle (Styles, Scripts, Shortcodes);
 - Introduced a Helper class to handle folder reading and generic routines;
 - Added annotations to all functions for better code reading;
 - Simplified functions.php;
@@ -35,6 +42,7 @@
 - Dynamic styles and scripts enqueueing (pages);
 - Dynamic shortcode creation;
 - JS and CSS minification;
+- Autoinclusion for PHP procedural code snippets;
 
 <br/><br/>
 <p align="center"><i>Setup a WordPress Child Theme in no time!</i></p>
@@ -135,8 +143,6 @@ You can write custom code and use namespaces anywhere inside the boilerplate.
 
 If you want to hook directly into the ThemeSettings class, you will have to use classes. Than you can call an instance of that class or its static methods inside ThemeSettings's constructor. Another route is to just create an instance of that class in functions.php.
 
-For the time being, procedural code still relies in default PHP inclusion. You can use functions.php for that.
-
 #### Example:
 
 Add a test function to Shortocodes.php:
@@ -205,7 +211,30 @@ class ThemeSettings
 
 If you want to get rid of "requires" and "includes" inside your code, just use the **\WPChild namespace** or change it to whatever name you like.
 
-This boilerplate packs a custom autoloader that will handle all of your php files importing inside the **/inc** folder
+This boilerplate packs a custom autoloader that will handle all of your php files inside the **/inc and /lib** folders.
+
+<br/><br/>
+
+### Adding procedural code
+Version 1.6 now allows the use of procedural code, covering a major flaw from earlier releases. To add WP or plain PHP procedural codes, just add yout files to the snippets folder.
+
+#### Example
+```
+/**
+* Create a test.php file inside /lib/snippets
+* This code will add a new paragraph at the end of blog posts' content.
+* No OOP required.
+*/
+
+add_filter('the_content', function($content){
+  if(is_singular('post')) {
+    return $content . '<p>This content was appended.</p>';
+  }
+
+  return $content;
+});
+
+```
 
 <br/><br/>
 

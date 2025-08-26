@@ -22,11 +22,15 @@ class ThemeSettings
      */
     private $scripts;
 
+    private $helpers;
+
     public function __construct()
     {
         $this->styles = new \WPChild\Assets\Styles;
         $this->scripts = new \WPChild\Assets\Scripts;
-        \WPChild\Assets\Shortcodes::autoInclude();
+        $this->helpers = new \WPChild\Helpers;
+        $this->helpers->autoIncludeFiles("/lib/shortcodes/", ".php");
+        $this->helpers->autoIncludeFiles("/lib/snippets/", ".php");
         $this->activationHook();
         $this->actionHooks();
         $this->filterHooks();
@@ -39,13 +43,7 @@ class ThemeSettings
      *
      * @return void
      */
-    public function actionHooks()
-    {
-        add_action('wp_enqueue_scripts', array($this->scripts, 'enqueueScripts'));
-        add_action('wp_enqueue_scripts', array($this->scripts, 'enqueuePageScripts'));
-        add_action('wp_enqueue_scripts', array($this->styles, 'enqueueStyles'));
-        add_action('wp_enqueue_scripts', array($this->styles, 'enqueuePageStyles'));
-    }
+    public function actionHooks() {}
 
     /**
      * Register WordPress filter hooks.

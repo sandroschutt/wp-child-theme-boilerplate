@@ -22,6 +22,8 @@ class Styles
     {
         $this->stylesPath = get_theme_file_uri() . "/build/css/";
         $this->fileExt = ".min.css";
+        add_action('wp_enqueue_scripts', array($this, 'enqueueStyles'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueuePageStyles'));
     }
 
     /**

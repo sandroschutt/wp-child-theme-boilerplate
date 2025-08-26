@@ -38,7 +38,33 @@ class Helpers
             endforeach;
         endif;
 
-        if (count($readFiles['files']) < 1) return false;
+        if (is_array($readFiles['files'])) {
+            if(count($readFiles['files']) < 1) return false;
+        } else return false;
+
         return $readFiles;
+    }
+
+    /**
+     * Automatically includes files from a specified directory.
+     *
+     * Scans the given directory for files matching the specified extension
+     * and includes them if the current environment is not the WordPress admin.
+     *
+     * @param string $path Relative path from the parent directory to scan.
+     * @param string $fileExt File extension to include (e.g., '.php').
+     *
+     * @return void
+     */
+    public function autoIncludeFiles(String $path, String $fileExt) : void
+    {
+        $files = $this->getFilesArray($path, $fileExt);
+        if (is_admin() || $files === false) return;
+
+        foreach ($files['files'] as $file) :
+            if (strlen($file) >= 3 && str_contains($file, $fileExt)) :
+                include $files['dir'] . $file;
+            endif;
+        endforeach;
     }
 }
