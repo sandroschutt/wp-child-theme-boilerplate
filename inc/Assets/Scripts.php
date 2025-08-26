@@ -21,6 +21,8 @@ class Scripts
     {
         $this->scriptsPath = get_theme_file_uri() . "/build/js/";
         $this->fileExt = ".min.js";
+        add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueuePageScripts'));
     }
 
     /**
