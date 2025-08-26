@@ -26,7 +26,6 @@
 - Move action hooks from ThemeSettings to Styles and Scripts constructors;
 - Drop Shortcode class (was doing almost nothing);
 - Introduces Helpers' autoIncludeFiles method for easily handling of autoinclusions;
-<br>
 
 #### v1.5
 - Moved autoload.php to root folder in order to make namespaces to work inside the theme scope;
@@ -43,6 +42,7 @@
 - Dynamic styles and scripts enqueueing (pages);
 - Dynamic shortcode creation;
 - JS and CSS minification;
+- Autoinclusion for PHP procedural code snippets;
 
 <br/><br/>
 <p align="center"><i>Setup a WordPress Child Theme in no time!</i></p>
