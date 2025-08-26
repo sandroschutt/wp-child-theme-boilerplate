@@ -1,6 +1,5 @@
 /assets/images/wp-child-theme-boilerplate-github.webp
 /build/*
 /src/*
-/lib/post-types/*
-/lib/shortcodes/*
+/lib/*
 /node_modules
